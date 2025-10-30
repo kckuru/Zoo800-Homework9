@@ -46,7 +46,7 @@ head(data)
 
 p1 <- ggplot(data, aes(x = x, y = y)) +
   geom_point(color = "blue") +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
   facet_wrap(~ sigma, nrow = 1) +
   labs(
     title = "Effect of Increasing Observation Error on Linear Regression",

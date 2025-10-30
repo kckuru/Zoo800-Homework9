@@ -1,5 +1,8 @@
-##########################
-# Group members: Keeley Kuru,
+##################
+### Homework 9 ###
+##################
+
+# Group members: Keeley Kuru
 # Date: 10/30/25
 
 # ===== Objective 1 ===== #
@@ -14,7 +17,7 @@ library(tidyr)
 # Set seed for reproducibility
 set.seed(123)
 
-# Constants
+# Define constants
 alpha <- 5
 beta <- 8
 n <- 100
@@ -41,16 +44,18 @@ head(data)
 
 # 1B
 
-ggplot(data, aes(x = x, y = y)) +
+p1 <- ggplot(data, aes(x = x, y = y)) +
   geom_point(color = "blue") +
   geom_smooth(method = "lm", se = FALSE, color = "red") +
   facet_wrap(~ sigma, nrow = 1) +
-  labs(title = "Effect of Increasing Observation Error on Linear Regression",
-       x = "Predictor (x)",
-       y = "Response (y)",
-       subtitle = "Panels show σ = 1, 10, and 25") +
+  labs(
+    title = "Effect of Increasing Observation Error on Linear Regression",
+    x = "Predictor (x)",
+    y = "Response (y)"
+  ) +
   theme_minimal()
 
+p1
 
 # ===== Objective 2 ===== #
 
@@ -61,13 +66,13 @@ library(ggplot2)
 
 set.seed(123)
 
-# Parameters
-n_sims <- 100          # number of simulation repeats
-p_values <- c(0.55, 0.6, 0.65)  # different degrees of unfairness
-n_flips <- 1:20        # range of flips
+# Define parameters
+n_sims <- 100 # number of simulations per condition
+p_values <- c(0.55, 0.6, 0.65) # probabilities of heads
+n_flips <- 1:20 # number of coin flips
 
 # Function to simulate coin flips and test significance
-simulate_coin <- function(n, p, n_sims = 100, alpha = 0.05) {
+simulate_coin_flips <- function(n, p, n_sims = 100, alpha = 0.05) {
   significant_counts <- numeric(length(n))
   
   for (i in seq_along(n)) {
@@ -86,13 +91,14 @@ simulate_coin <- function(n, p, n_sims = 100, alpha = 0.05) {
 }
 
 # Run simulation for all p values and combine
-results <- do.call(rbind, lapply(p_values, function(p) simulate_coin(n_flips, p)))
+results <- do.call(rbind, lapply(p_values, function(p) simulate_coin_flips(n_flips, p)))
 
 head(results)
 
+
 # 2B.
 
-ggplot(results, aes(x = n_flips, y = power, color = factor(p))) +
+p2 <- ggplot(results, aes(x = n_flips, y = power, color = factor(p))) +
   geom_line(linewidth = 1.2) +   
   geom_point(size = 2) +         
   labs(title = "Power to Detect an Unfair Coin",
@@ -102,4 +108,4 @@ ggplot(results, aes(x = n_flips, y = power, color = factor(p))) +
   scale_y_continuous(limits = c(0, 1)) +
   theme_minimal()
 
-
+p2

@@ -71,23 +71,22 @@ n_sims <- 100 # number of simulations per condition
 p_values <- c(0.55, 0.6, 0.65) # probabilities of heads
 n_flips <- 1:20 # number of coin flips
 
-# Function to simulate coin flips and test significance
+
+# Simulate coin flips and test significance
 simulate_coin_flips <- function(n, p, n_sims = 100, alpha = 0.05) {
-  significant_counts <- numeric(length(n))
-  
-  for (i in seq_along(n)) {
+  significant_counts <- numeric(length(n)) # significant_counts is a vector to store the proportion of significant results
+  for (i in seq_along(n)) { # for each number of flips
     sig <- 0
-    for (sim in 1:n_sims) {
-      flips <- rbinom(n[i], size = 1, prob = p)
-      test <- prop.test(sum(flips), n[i], p = 0.5, alternative = "greater")
-      if (test$p.value < alpha) {
-        sig <- sig + 1
+    for (sim in 1:n_sims) { # simulate n_sims experiments
+      flips <- rbinom(n[i], size = 1, prob = p) # flip the coin n times
+      test <- prop.test(sum(flips), n[i], p = 0.5, alternative = "greater") # one-sided test
+      if (test$p.value < alpha) { # if p-value is less than alpha, count as significant
+        sig <- sig + 1 # increment significant count
       }
     }
-    significant_counts[i] <- sig / n_sims
+    significant_counts[i] <- sig / n_sims # proportion of significant results
   }
-  
-  return(data.frame(n_flips = n, power = significant_counts, p = p))
+  return(data.frame(n_flips = n, power = significant_counts, p = p)) # return a data frame with results
 }
 
 # Run simulation for all p values and combine

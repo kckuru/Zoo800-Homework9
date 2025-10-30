@@ -101,7 +101,7 @@ head(results)
 p2 <- ggplot(results, aes(x = n_flips, y = power, color = factor(p))) +
   geom_line(linewidth = 1.2) +   
   geom_point(size = 2) +         
-  labs(title = "Power to Detect an Unfair Coin",
+  labs(title = "Detection of an Unfair Coin",
        x = "Number of Coin Flips",
        y = "Probability of Significant Test (α < 0.05)",
        color = "p(heads)") +
